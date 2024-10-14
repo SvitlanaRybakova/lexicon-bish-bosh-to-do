@@ -1,41 +1,47 @@
-const progressText = 
-    document.getElementById('progressText');
-const progressBar = 
-    document.getElementById('progressBar');
-const gradientEnd = 
-    document.getElementById('gradientEnd');
+const progressText = document.getElementById('progressText');
+const progressBar = document.getElementById('progressBar');
+const form = document.getElementById("bish-bosh-form");
 
-    console.log("progressText",progressText);
-    console.log("progressBar",progressBar);
-    console.log("gradientEnd",gradientEnd);
-    
 let progress = 0;
 const updateInterval = 50;
-const maxProgress = 100;
+let interval = null;  
 
-function updateProgress() {
-    progress++;
-    if (progress > maxProgress) {
-        clearInterval(interval);
-        progress = maxProgress;
-    }
-    progressText.textContent = 
-        progress + '%';
-    progressBar.style.strokeDashoffset = 
-        520 - (520 * progress) / 100;
+async function onFormSubmit(event) {
+  event.preventDefault(); 
 
-    const gradientProgress = progress / maxProgress;
-    gradientEnd.setAttribute('offset', 
-        `${gradientProgress * 100}%`);
+  const data = new FormData(event.target);
+  
+  const bishNumber = data.get("bish-number-input");
+  const boshNumber = data.get("bosh-number-input");
+  const loopNumber = parseInt(data.get("loop-number-input"));
+
+  progress = 0;
+  
+  // Clear any existing intervals before starting a new one
+  if (interval) {
+    clearInterval(interval);
+  }
+
+  // Start the progress update 
+  interval = await setInterval(() => updateProgress(loopNumber), updateInterval);
+  
 }
 
-updateProgress();
-const interval = setInterval(updateProgress, updateInterval);
-
-
-for (let i = 1; i <= 100; i++) {
-    if (i % 3 === 0 && i % 4 === 0) console.log("Bish-Bosh");
-    else if (i % 3 === 0) console.log("Bish");
-    else if (i % 4 === 0) console.log("Bosh");
-    else console.log(i);
+function updateProgress(loopNumber) {
+  progress++;
+  
+  const adjustedProgress = (progress / loopNumber) * 100;
+  
+  if (progress >= loopNumber) {
+      clearInterval(interval);
+      progress = loopNumber; 
   }
+
+  //  display
+  progressText.textContent = `${progress}`;
+  progressBar.style.strokeDashoffset = 520 - (520 * adjustedProgress) / 100;
+
+}
+
+
+form.addEventListener("submit", onFormSubmit);
