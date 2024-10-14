@@ -19,31 +19,31 @@ let interval = null;
   gameResultList.innerHTML = '';
   progress = 0;
   
-  // Clear any existing intervals before starting a new one
-  if (interval) {
-    clearInterval(interval);
-  }
-
-  // Start the progress update 
-  interval = await setInterval(() => updateProgress(loopNumber), updateInterval);
+   await updateProgress(loopNumber);
   renderGameResult(loopNumber, bishNumber, boshNumber);
 }
 
-function updateProgress(loopNumber) {
-  progress++;
-  
-  const adjustedProgress = (progress / loopNumber) * 100;
-  
-  if (progress >= loopNumber) {
-      clearInterval(interval);
-      progress = loopNumber; 
-  }
+async function updateProgress(loopNumber) {
+  return new Promise((resolve) => {
+    const interval = setInterval(() => {
+      progress++;
 
-  //  display
-  progressText.textContent = `${progress}`;
-  progressBar.style.strokeDashoffset = 520 - (520 * adjustedProgress) / 100;
+      const adjustedProgress = (progress / loopNumber) * 100;
 
+      //  render progress
+      progressText.textContent = `${progress}`;
+      progressBar.style.strokeDashoffset = 520 - (520 * adjustedProgress) / 100;
+
+      // When progress reaches or exceeds the loopNumber, resolve the Promise
+      if (progress >= loopNumber) {
+        clearInterval(interval); // Stop the interval
+        progress = loopNumber;   // Ensure the progress does not exceed loopNumber
+        resolve();               // Resolve the Promise to signal completion
+      }
+    }, updateInterval); 
+  });
 }
+
 
 function renderGameResult(loopNumber, bishNumber, boshNumber) {
   for (let i = 1; i <= loopNumber; i++) {
