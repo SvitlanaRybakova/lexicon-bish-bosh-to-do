@@ -3,16 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lexicon - Bish-Bosh</title>
+    <title>Lexicon</title>
+    <link rel="stylesheet" href="styles/normalize.css" />
+    <link rel="stylesheet" href="styles/bishbosh.css" />
+    <script src="./js/bishbosh.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
-    <script>
-      for (let i = 1; i <= 100; i++) {
-        if (i % 3 === 0 && i % 4 === 0) console.log("Bish-Bosh");
-        else if (i % 3 === 0) console.log("Bish");
-        else if (i % 4 === 0) console.log("Bosh");
-        else console.log(i);
-      }
-    </script>
+    <button
+      type="button"
+      class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+    >
+      Default
+    </button>
   </body>
 </html>
