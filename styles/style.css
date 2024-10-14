@@ -1,0 +1,35 @@
+.main-container {
+  min-height: 90vh;
+}
+/* Circular progress bar */
+circle {
+  fill: none;
+  stroke: #1c64f2;
+  stroke-width: 20px;
+  stroke-dasharray: 520;
+  stroke-dashoffset: 520;
+}
+
+svg {
+  position: relative;
+  top: -176px;
+}
+
+#progressContainer {
+  animation-duration: 1.5s;
+  animation-timing-function: ease-in-out;
+}
+
+.progress-heading {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes water-fill {
+  from {
+    height: 0;
+  }
+
+  to {
+    height: 100%;
+  }
+}
