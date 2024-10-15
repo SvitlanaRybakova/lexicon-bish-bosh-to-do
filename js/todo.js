@@ -1,7 +1,6 @@
 const todoFormEl = document.getElementById("todo-form");
 const todoListUlEl = document.getElementById("todo-list");
 
-
 const todoList = [
   {
     id: "1",
@@ -69,6 +68,10 @@ const renderTodo = (todo) => {
 
   todoListUlEl.appendChild(li);
   li.querySelector("#delete-btn").addEventListener("click", onDeleteTodo);
+  li.querySelector('input[type="checkbox"]').addEventListener(
+    "click",
+    onCheckTodo
+  );
 };
 
 const onFormSubmit = (event) => {
@@ -96,6 +99,16 @@ const onDeleteTodo = (event) => {
   todoList.length = 0;
   todoList.push(...updatedTodoList);
 
+  renderTodoList();
+};
+
+const onCheckTodo = (event) => {
+  const todoId = event.target.closest("li").getAttribute("data-id");
+
+  const todoItem = todoList.find((todo) => todo.id === todoId);
+  if (todoItem) {
+    todoItem.checked = !todoItem.checked;
+  }
   renderTodoList();
 };
 
